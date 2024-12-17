@@ -47,7 +47,6 @@ class Program
             Console.Write("Бажаєте спробувати знову? (так/ні): ");
             string playAgainInput = Console.ReadLine()?.ToLower();
             playAgain = playAgainInput == "так";
-            Console.Clear();
         }
 
         Console.WriteLine("Дякую за гру! До побачення!");
