@@ -1,0 +1,26 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  greet:
+    name: Greeting Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Print greeting
+        run: echo "Hello, GitHub Actions!"
+
+      - name: Display system information
+        run: |
+          echo "OS: ${{ runner.os }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
