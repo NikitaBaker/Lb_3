@@ -1,0 +1,55 @@
+name: Multi Job Workflow
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+
+  prepare:
+    name: Prepare Job
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Set version
+        id: version
+        run: echo "version=1.0.0" >> $GITHUB_OUTPUT
+
+      - name: Show version
+        run: echo "Version is 1.0.0"
+
+  test-linux:
+    name: Linux Test
+    needs: prepare
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Linux test
+        run: |
+          echo "Running tests on Linux"
+          echo "Version: ${{ needs.prepare.outputs.version }}"
+
+  test-windows:
+    name: Windows Test
+    needs: prepare
+    runs-on: windows-latest
+
+    steps:
+      - name: Run Windows test
+        run: |
+          echo "Running tests on Windows"
+
+  build:
+    name: Build Application
+    needs: [prepare, test-linux, test-windows]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build project
+        run: echo "Application build completed"
